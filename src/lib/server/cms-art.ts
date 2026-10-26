@@ -145,12 +145,18 @@ const imageVersions = async (file: File) => {
 };
 const uploadedFile = (form: FormData, key: string): File | null => {
   const value = form.get(key);
-  return value instanceof File && value.size > 0 ? value : null;
+  // Multipart entries are strings or File values. Avoid the global File
+  // constructor: it is absent in Node 18 and can differ across runtimes.
+  return value !== null && typeof value !== "string" && value.size > 0
+    ? value
+    : null;
 };
 const readFiles = (form: FormData, key: string) =>
   form
     .getAll(key)
-    .filter((value): value is File => value instanceof File && value.size > 0);
+    .filter(
+      (value): value is File => typeof value !== "string" && value.size > 0,
+    );
 const validateFiles = (files: File[], photo = false) => {
   for (const file of files) {
     const error = validateArtUpload(file, photo);
@@ -386,7 +392,7 @@ export const artCMS =
         throw new ArtError("Upload no more than 120 MB at once", 413);
       const form = await request.formData();
       const bytes = Array.from(form.values()).reduce(
-        (total, value) => total + (value instanceof File ? value.size : 0),
+        (total, value) => total + (typeof value !== "string" ? value.size : 0),
         0,
       );
       if (bytes > 120 * 1024 * 1024)

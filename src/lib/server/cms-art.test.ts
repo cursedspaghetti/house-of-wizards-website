@@ -94,6 +94,39 @@ describe("art CMS mutations", () => {
     expect(response.status).toBe(400);
     expect(upload).not.toHaveBeenCalled();
   });
+  it.each([false, true])(
+    "saves an artist without a global File constructor (photo: %s)",
+    async (withPhoto) => {
+      const bytes = await sharp({
+        create: { width: 4, height: 4, channels: 3, background: "purple" },
+      })
+        .png()
+        .toBuffer();
+      const req = request(
+        { name: "Artist" },
+        withPhoto
+          ? new File([new Uint8Array(bytes)], "avatar.png", {
+              type: "image/png",
+            })
+          : undefined,
+      );
+      // Node 18 supports multipart File values without a global File constructor.
+      const descriptor = Object.getOwnPropertyDescriptor(globalThis, "File");
+      Object.defineProperty(globalThis, "File", {
+        configurable: true,
+        value: undefined,
+      });
+      try {
+        const response = await artCMS("artist", "save")(req);
+        expect(response.status).toBe(201);
+        expect(rpc).toHaveBeenCalledTimes(1);
+        expect(upload).toHaveBeenCalledTimes(withPhoto ? 2 : 0);
+      } finally {
+        if (descriptor) Object.defineProperty(globalThis, "File", descriptor);
+        else Reflect.deleteProperty(globalThis, "File");
+      }
+    },
+  );
   it("preserves avatar bytes and creates a small display version", async () => {
     const bytes = await sharp({
       create: { width: 1000, height: 600, channels: 3, background: "purple" },
@@ -106,7 +139,12 @@ describe("art CMS mutations", () => {
     const response = await artCMS(
       "artist",
       "save",
-    )(request({ name: "Artist" }, photo));
+    )(
+      request(
+        { name: "Artist", portfolio_url: "", profile_image_source_url: "" },
+        photo,
+      ),
+    );
     expect(response.status).toBe(201);
     expect(upload).toHaveBeenCalledTimes(2);
     expect(upload.mock.calls[0][1].toString("hex")).toBe(bytes.toString("hex"));

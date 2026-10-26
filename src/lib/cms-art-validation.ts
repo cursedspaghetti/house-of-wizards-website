@@ -11,14 +11,18 @@ export const webUrl = z
   .string()
   .trim()
   .url()
-  .refine(
-    (value) => ["https:", "http:"].includes(new URL(value).protocol),
-    "Use an HTTP(S) URL",
-  );
-const optionalUrl = z
-  .union([webUrl, z.literal(""), z.null()])
-  .optional()
-  .transform((value) => value || null);
+  .refine((value) => {
+    // Zod refinements also run after a failed .url() check.
+    try {
+      return ["https:", "http:"].includes(new URL(value).protocol);
+    } catch {
+      return false;
+    }
+  }, "Use an HTTP(S) URL");
+const optionalUrl = z.preprocess(
+  (value) => (typeof value === "string" && !value.trim() ? null : value),
+  webUrl.nullish().transform((value) => value ?? null),
+);
 export const artistInput = z
   .object({
     name: z.string().trim().min(1, "Artist name is required").max(200),

@@ -12,6 +12,7 @@ import {
   Heart,
 } from "lucide-react";
 import type { ArtArtist, Artwork } from "@/types/art";
+import { ZoomableArtwork } from "./ZoomableArtwork";
 
 export const ArtworkViewer = ({
   artwork,
@@ -75,9 +76,8 @@ export const ArtworkViewer = ({
               aria-label={artwork.title}
             />
           ) : (
-            <img
+            <ZoomableArtwork
               key={image}
-              className="art-full-image"
               src={image}
               alt={
                 artwork.title +
