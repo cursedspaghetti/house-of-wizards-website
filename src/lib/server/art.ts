@@ -5,7 +5,7 @@ import { artworkTitle } from "@/lib/art-titles";
 import { getSupabaseClient } from "@/lib/supabase";
 import { artistSchema, artworkSchema, type ArtCatalog } from "@/types/art";
 
-const readCatalog = async (): Promise<ArtCatalog> => {
+const readCatalog = async () => {
   const db = getSupabaseClient();
   const [artistResult, artworkResult] = await Promise.all([
     db
@@ -23,6 +23,19 @@ const readCatalog = async (): Promise<ArtCatalog> => {
     throw new Error("The art catalog could not be loaded.");
   const artists = z.array(artistSchema).parse(artistResult.data);
   const artworks = z.array(artworkSchema).parse(artworkResult.data);
+  return { artists, artworks };
+};
+
+// Cache durable metadata only. Signed URLs expire and must never be retained
+// by the data cache or served during stale-while-revalidate.
+const getCatalogData = unstable_cache(readCatalog, ["commission-art-data-v3"], {
+  revalidate: 300,
+  tags: ["commission-art"],
+});
+
+export const getArtCatalog = async (): Promise<ArtCatalog> => {
+  const { artists, artworks } = await getCatalogData();
+  const db = getSupabaseClient();
   const paths = new Map<string, Set<string>>();
   const add = (bucket: string, path: string) => {
     const group = paths.get(bucket) ?? new Set<string>();
@@ -84,9 +97,3 @@ const readCatalog = async (): Promise<ArtCatalog> => {
     })),
   };
 };
-
-export const getArtCatalog = unstable_cache(
-  readCatalog,
-  ["commission-art-v2"],
-  { revalidate: 300, tags: ["commission-art"] },
-);
