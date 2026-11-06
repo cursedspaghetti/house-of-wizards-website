@@ -9,9 +9,9 @@ export type CommunityGame = {
   tags: string[];
   platform: GamePlatform;
   featured?: boolean;
-  // Cover image served from /public, e.g. "/img/gaming-hub/rebel-shadows.png".
-  // Leave it out to show the placeholder art.
   image?: string;
+  // "contain" shows the whole image (with dark bars) instead of cropping it.
+  imageFit?: "cover" | "contain";
 };
 
 // Community games set in the Runiverse, in display order.
@@ -42,6 +42,7 @@ export const communityGames: CommunityGame[] = [
   {
     title: "Breadventure",
     image: "/img/gaming-hub/breadventure.png",
+    imageFit: "contain",
     href: "https://store.steampowered.com/app/3941330/Breadventure/",
     description:
       "A party-based RPG by Feckless: you are a loaf of bread on the way to becoming a legend. Recruit companions, fight, cook and schmooze your way to the top.",

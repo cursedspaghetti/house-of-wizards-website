@@ -22,13 +22,14 @@ type GameCardProps = {
 type GameArtProps = {
   title: string;
   image?: string;
+  imageFit?: "cover" | "contain";
   featured: boolean;
 };
 
-const GameArt = ({ title, image, featured }: GameArtProps) => (
+const GameArt = ({ title, image, imageFit, featured }: GameArtProps) => (
   <div
     className={`relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-brand-900/60 via-neutral-900 to-neutral-950 ${
-      featured ? "min-h-[264px] md:h-full md:min-h-[300px]" : "aspect-video"
+      featured ? "aspect-video md:h-full" : "aspect-video"
     }`}
   >
     {image ? (
@@ -36,8 +37,12 @@ const GameArt = ({ title, image, featured }: GameArtProps) => (
         src={image}
         alt={`${title} cover art`}
         fill
-        sizes="(min-width: 768px) 576px, 100vw"
-        className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+        sizes={
+          featured
+            ? "(min-width: 768px) 700px, 100vw"
+            : "(min-width: 768px) 576px, 100vw"
+        }
+        className={`${imageFit === "contain" ? "object-contain" : "object-cover"} transition-transform duration-500 group-hover:scale-[1.03]`}
         priority={featured}
       />
     ) : (
@@ -65,8 +70,13 @@ const GameCard = ({ game }: GameCardProps) => {
         featured ? "flex-col md:col-span-2 md:flex-row" : "flex-col"
       }`}
     >
-      <div className={featured ? "md:w-1/2" : ""}>
-        <GameArt title={game.title} image={game.image} featured={featured} />
+      <div className={featured ? "md:w-3/5" : ""}>
+        <GameArt
+          title={game.title}
+          image={game.image}
+          imageFit={game.imageFit}
+          featured={featured}
+        />
       </div>
       <div className="flex flex-1 flex-col gap-3 p-6">
         {featured && (
