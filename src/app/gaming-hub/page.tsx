@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ArrowUpRight, Gamepad2 } from "lucide-react";
 
 import {
@@ -18,19 +19,38 @@ type GameCardProps = {
   game: CommunityGame;
 };
 
-const GameArt = ({ featured }: { featured: boolean }) => (
+type GameArtProps = {
+  title: string;
+  image?: string;
+  featured: boolean;
+};
+
+const GameArt = ({ title, image, featured }: GameArtProps) => (
   <div
     className={`relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-brand-900/60 via-neutral-900 to-neutral-950 ${
-      featured ? "min-h-[220px] md:min-h-full" : "aspect-[16/7]"
+      featured ? "min-h-[264px] md:h-full md:min-h-[300px]" : "aspect-video"
     }`}
   >
-    <Gamepad2
-      aria-hidden="true"
-      className="h-12 w-12 text-brand-500/40 transition-colors group-hover:text-brand-400/70"
-    />
-    <span className="absolute bottom-3 right-3 rounded border border-neutral-700 bg-neutral-950/80 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-neutral-500">
-      Placeholder art
-    </span>
+    {image ? (
+      <Image
+        src={image}
+        alt={`${title} cover art`}
+        fill
+        sizes="(min-width: 768px) 576px, 100vw"
+        className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+        priority={featured}
+      />
+    ) : (
+      <>
+        <Gamepad2
+          aria-hidden="true"
+          className="h-12 w-12 text-brand-500/40 transition-colors group-hover:text-brand-400/70"
+        />
+        <span className="absolute bottom-3 right-3 rounded border border-neutral-700 bg-neutral-950/80 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-neutral-500">
+          Placeholder art
+        </span>
+      </>
+    )}
   </div>
 );
 
@@ -46,7 +66,7 @@ const GameCard = ({ game }: GameCardProps) => {
       }`}
     >
       <div className={featured ? "md:w-1/2" : ""}>
-        <GameArt featured={featured} />
+        <GameArt title={game.title} image={game.image} featured={featured} />
       </div>
       <div className="flex flex-1 flex-col gap-3 p-6">
         {featured && (
@@ -105,8 +125,9 @@ const GamingHubPage = () => (
       </div>
 
       <p className="mt-16 text-center text-sm text-neutral-500">
-        Each game belongs to its creators. Images are placeholders until the
-        teams share their own artwork.
+        Each game belongs to its creators.
+        {communityGames.some((game) => !game.image) &&
+          " Placeholder images are shown until the teams share their own artwork."}
       </p>
     </div>
   </div>
