@@ -23,7 +23,7 @@ export const communityGames: CommunityGame[] = [
   {
     title: "Forgotten Runiverse",
     image: "/img/gaming-hub/forgotten-runiverse.png",
-    href: "https://game.runiverse.world/",
+    href: "https://staging.runiverse.world/",
     description:
       "The main game: a free-to-play pixel-art fantasy MMO set in the world of the Forgotten Runes Wizard's Cult. Adventure, fight and craft across the Runiverse.",
     tags: ["MMO", "RPG"],
