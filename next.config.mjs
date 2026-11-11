@@ -6,6 +6,10 @@ const require = createRequire(import.meta.url);
 const nextConfig = {
   experimental: {
     esmExternals: true,
+    // The custom webpack hook disables this by default. Release compiler memory
+    // before linting and type checking on Vercel's 8 GB build machines.
+    webpackBuildWorker: true,
+    webpackMemoryOptimizations: true,
   },
   images: {
     remotePatterns: [],
