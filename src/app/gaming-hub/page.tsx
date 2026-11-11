@@ -29,7 +29,7 @@ type GameArtProps = {
 const GameArt = ({ title, image, imageFit, featured }: GameArtProps) => (
   <div
     className={`relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-brand-900/60 via-neutral-900 to-neutral-950 ${
-      featured ? "aspect-video md:h-full" : "aspect-video"
+      featured ? "aspect-video md:aspect-auto md:h-full" : "aspect-video"
     }`}
   >
     {image ? (

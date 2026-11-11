@@ -271,7 +271,7 @@ export const Navbar = () => {
       </NavbarContent>
 
       {/* Desktop Navigation Links */}
-      <NavbarContent className="hidden lg:flex gap-6 justify-start ml-2 uppercase">
+      <NavbarContent className="hidden xl:flex gap-6 justify-start ml-2 uppercase">
         {navigationItems.map((item) => {
           if (isDropdown(item)) {
             return (
@@ -393,7 +393,7 @@ export const Navbar = () => {
       </NavbarContent>
 
       {/* Mobile Menu Button */}
-      <NavbarContent className="lg:hidden basis-1 pl-4" justify="end">
+      <NavbarContent className="xl:hidden basis-1 pl-4" justify="end">
         <NavbarItem>
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -413,7 +413,7 @@ export const Navbar = () => {
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
-        <div className="bg-black/95 backdrop-blur-sm z-[9999] fixed inset-0 lg:hidden">
+        <div className="bg-black/95 backdrop-blur-sm z-[9999] fixed inset-0 xl:hidden">
           <div className="mx-4 mt-4 flex flex-col gap-2">
             {/* Close Button */}
             <div className="flex justify-end mb-4">

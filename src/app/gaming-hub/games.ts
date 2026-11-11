@@ -17,12 +17,12 @@ export type CommunityGame = {
 // Community games set in the Runiverse, in display order.
 // To add a game, append an entry here.
 // To add or change a cover: upload the file to public/img/gaming-hub/
-// (16:9 landscape, e.g. 1920x1080) and set `image` on the game.
+// (compressed WebP, ideally 16:9 and at most 1400px wide) and set `image`.
 // Replacing a file with the same name updates the cover without code changes.
 export const communityGames: CommunityGame[] = [
   {
     title: "Forgotten Runiverse",
-    image: "/img/gaming-hub/forgotten-runiverse.png",
+    image: "/img/gaming-hub/forgotten-runiverse.webp",
     href: "https://staging.runiverse.world/",
     description:
       "The main game: a free-to-play pixel-art fantasy MMO set in the world of the Forgotten Runes Wizard's Cult. Adventure, fight and craft across the Runiverse.",
@@ -32,7 +32,7 @@ export const communityGames: CommunityGame[] = [
   },
   {
     title: "Runes TCG",
-    image: "/img/gaming-hub/runes-tcg.png",
+    image: "/img/gaming-hub/runes-tcg.webp",
     href: "https://www.runes-tcg.com/",
     description:
       "A strategic 1v1 trading card game set in the Runiverse: collect cards and outplay opponents on a tactical grid.",
@@ -41,7 +41,7 @@ export const communityGames: CommunityGame[] = [
   },
   {
     title: "Breadventure",
-    image: "/img/gaming-hub/breadventure.png",
+    image: "/img/gaming-hub/breadventure.webp",
     imageFit: "contain",
     href: "https://store.steampowered.com/app/3941330/Breadventure/",
     description:
@@ -51,7 +51,7 @@ export const communityGames: CommunityGame[] = [
   },
   {
     title: "Forgotten Runes: Demiurge",
-    image: "/img/gaming-hub/demiurge.png",
+    image: "/img/gaming-hub/demiurge.webp",
     href: "https://demiurge-demo-production.up.railway.app/",
     description:
       "A story builder and adventure in the Runiverse: shape your own tale and set out on it.",
@@ -60,7 +60,7 @@ export const communityGames: CommunityGame[] = [
   },
   {
     title: "Rebel Shadows",
-    image: "/img/gaming-hub/rebel-shadows.png",
+    image: "/img/gaming-hub/rebel-shadows.webp",
     href: "https://www.rebel-shadows.xyz/",
     description:
       "A pixel-art action roguelite: play your wizard, charge the Shadows Heart with elemental magic, survive the waves and take down the bosses.",
@@ -69,7 +69,7 @@ export const communityGames: CommunityGame[] = [
   },
   {
     title: "Ichor & Ashes",
-    image: "/img/gaming-hub/ichor-and-ashes.png",
+    image: "/img/gaming-hub/ichor-and-ashes.webp",
     href: "https://ichor-and-ashes.vercel.app/",
     description:
       "A community-made action roguelite in the Runiverse, playable in the browser.",
