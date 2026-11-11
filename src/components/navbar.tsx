@@ -41,27 +41,6 @@ const isDropdown = (item: NavItem): item is NavDropdown => {
   return "items" in item;
 };
 
-const gamesDropdown: NavDropdown = {
-  label: "GAMES",
-  items: [
-    {
-      label: "The Runiverse Game",
-      href: "https://game.runiverse.world/",
-      external: true,
-    },
-    {
-      label: "Shucks - Pumpkin Panic",
-      href: "https://feckless.dev/shucks/",
-      external: true,
-    },
-    {
-      label: "Runes TCG",
-      href: "https://www.runes-tcg.com/",
-      external: true,
-    },
-  ],
-};
-
 const magicDropdown: NavDropdown = {
   label: "MAGIC",
   items: [
@@ -176,14 +155,13 @@ const navigationItems: NavItem[] = [
     label: "Art",
     href: "/art",
   },
-  {
-    label: "Gaming Hub",
-    href: "/gaming-hub",
-  },
   shopDropdown,
   magicDropdown,
   toolsDropdown,
-  gamesDropdown,
+  {
+    label: "Games",
+    href: "/gaming-hub",
+  },
   daoDropdown,
 ];
 

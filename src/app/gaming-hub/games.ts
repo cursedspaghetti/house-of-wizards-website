@@ -76,6 +76,17 @@ export const communityGames: CommunityGame[] = [
     tags: ["Action", "Roguelite"],
     platform: { kind: "browser" },
   },
+  {
+    // Description and cover: https://fecklessmage.itch.io/shucks-pumpkin-panic
+    title: "Shucks - Pumpkin Panic",
+    image: "/img/gaming-hub/shucks-pumpkin-panic.webp",
+    imageFit: "contain",
+    href: "https://feckless.dev/shucks/",
+    description:
+      "Join Shucks, the Corn Kid, in a pixel-art action platformer by Feckless. Leap between platforms, climb through the levels and smash pumpkins, all in your browser.",
+    tags: ["Platformer", "Action"],
+    platform: { kind: "browser" },
+  },
 ];
 
 export const platformLabel = (platform: GamePlatform): string => {
